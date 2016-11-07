@@ -158,6 +158,7 @@ func (foreman *Foreman) Delete(endpoint string) (map[string]interface{}, error) 
 
 type HostMap map[string]Host
 
+/*
 func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (string, error) {
 	var hostMap map[string]Host
 	var err error
@@ -177,6 +178,19 @@ func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (st
 		return "", err
 	}
 	return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
+}
+*/
+func (foreman *Foreman) CreateHost(Host *Host) (string, error) {
+	var err error
+	jsonText, err := json.Marshal(&Host)
+	data, err := foreman.Post("hosts", jsonText)
+	if err != nil {
+		fmt.Print("Error ")
+		fmt.Println(err)
+		return "", err
+	}
+	return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
+
 }
 
 func (foreman *Foreman) DeleteHost(HostID string) error {
