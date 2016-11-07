@@ -22,8 +22,7 @@ type Foreman struct {
 	auth      string
 }
 
-func NewForeman(HostName string, UserName string, Password string) *Foreman {
-	var foreman *Foreman
+func NewForeman(HostName string, UserName string, Password string) (foreman *Foreman) {
 	var tr *http.Transport
 
 	foreman = new(Foreman)
@@ -42,6 +41,7 @@ func NewForeman(HostName string, UserName string, Password string) *Foreman {
 		}
 	}
 	foreman.client = &http.Client{Transport: tr}
+
 	return foreman
 }
 
