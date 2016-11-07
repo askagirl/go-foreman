@@ -7,18 +7,18 @@ import (
 */
 
 //These are actual compute instance attributes
-type compute_attributes struct {
+type Compute_attributes struct {
 	Cpus      string `json:"cpus,omitempty"`
 	Start     string `json:"start,omitempty"`
 	Cluster   string `json:"cluster,omitempty"`
 	Memory_mb string `json:"memory_mb,omitempty"`
 	Guest_id  string `json:"guest_id,omitempty"`
 	//This needs to be a struct map or the foreman API will kick back the JSON
-	Volumes_attributes map[string]volumes_attributes `json:"volumes_attributes,omitempty"`
+	Volumes_attributes_map map[string]Volumes_attributes `json:"volumes_attributes,omitempty"`
 }
 
 //These are things like which datastore or cluster the virtual disks need to live on
-type volumes_attributes struct {
+type Volumes_attributes struct {
 	Name      string `json:"name,omitempty"`
 	Size_gb   int    `json:"size_gb,omitempty"`
 	_delete   string `json:",omitempty"`
@@ -26,13 +26,13 @@ type volumes_attributes struct {
 }
 
 //setup param archetype for host params attributes
-type params_archetype struct {
+type Params_archetype struct {
 	Name  string `json:"name,omitempty"`
 	Value string `json:"value,omitempty"`
 }
 
 //interfaces_attributes parameters
-type interfaces_attributes struct {
+type Interfaces_attributes struct {
 	Mac              string   `json:"mac,omitempty"`
 	Ip               string   `json:"ip,omitempty"`
 	Type             string   `json:"type,omitempty"`
@@ -53,17 +53,17 @@ type interfaces_attributes struct {
 	Attached_devices []string `json:"attached_devices,omitempty"`
 	Bond_options     string   `json:"bond_options,omitempty"`
 	//These are special attributes for hypervisor like vlan and whatnot
-	Compute_attributes ifcompute_attributes `json:"compute_attributes,omitempty"`
+	Compute_attributes Ifcompute_attributes `json:"compute_attributes,omitempty"`
 }
 
 //struct for nested interface compute attributes
-type ifcompute_attributes struct {
+type Ifcompute_attributes struct {
 	Network string `json:"network,omitempty"`
 	Type    string `json:"type,omitempty"`
 }
 
 //This is the main host struct instance that later gets wrapped in reqHost for JSON/foreman API reasons
-type host struct {
+type Host struct {
 	Name                string             `json:"name,omitempty"`
 	Environment_id      string             `json:"environment_id,omitempty"`
 	Ip                  string             `json:"ip,omitempty"`
@@ -87,7 +87,7 @@ type host struct {
 	Enabled             bool               `json:"enabled,omitempty"`
 	Provision_method    string             `json:"provision_method,omitempty"`
 	Managed             bool               `json:"managed,omitempty"`
-	Compute_attributes  compute_attributes `json:"compute_attributes,omitempty"`
+	Compute_attributes  Compute_attributes `json:"compute_attributes,omitempty"`
 	Owner_id            int                `json:"owner_id,omitempty"`
 	Owner_type          string             `json:"owner_type,omitempty"` // must be either User or Usergroup
 	Progress_report_id  string             `json:"progress_report_id,omitempty"`
@@ -95,7 +95,7 @@ type host struct {
 	Capabilities        string             `json:"capabilities,omitempty"`
 	Compute_profile_id  int                `json:"compute_profile_id,omitempty"`
 	//mapped struct array for host parameters
-	Host_parameters_attributes map[string]params_archetype `json:"host_parameters_attributes,omitempty"`
+	Host_parameters_attributes_map map[string]Params_archetype `json:"host_parameters_attributes,omitempty"`
 	//struct array for multiple interfaces
-	Interfaces_attributes []interfaces_attributes `json:"interfaces_attributes,omitempty"`
+	Interfaces_attributes_array []Interfaces_attributes `json:"interfaces_attributes,omitempty"`
 }

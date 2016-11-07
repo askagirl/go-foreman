@@ -22,7 +22,7 @@ type Foreman struct {
 	auth      string
 }
 
-func NewForeman(HostName string, UserName string, Password string) (foreman *Foreman) {
+func Client(HostName string, UserName string, Password string) (foreman *Foreman) {
 	var tr *http.Transport
 
 	foreman = new(Foreman)
@@ -156,13 +156,6 @@ func (foreman *Foreman) Delete(endpoint string) (map[string]interface{}, error) 
 	return m, nil
 }
 
-type Host struct {
-	HostGroupId string `json:"hostgroup_id"`
-	Name        string `json:"name"`
-	Mac         string `json:"mac"`
-	Build       bool   `json:"build"`
-}
-
 type HostMap map[string]Host
 
 func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (string, error) {
@@ -171,10 +164,10 @@ func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (st
 
 	hostMap = make(HostMap)
 	hostMap["host"] = Host{
-		HostGroupId: strconv.Itoa(HostGroupId),
-		Name:        Name,
-		Mac:         Mac,
-		Build:       true,
+		Hostgroup_id: HostGroupId,
+		Name:         Name,
+		Mac:          Mac,
+		Build:        true,
 	}
 	jsonText, err := json.Marshal(hostMap)
 	data, err := foreman.Post("hosts", jsonText)
