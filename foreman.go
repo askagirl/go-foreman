@@ -180,17 +180,55 @@ func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (st
 	return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
 }
 */
-func (foreman *Foreman) CreateHost(Host *Host) (string, error) {
-	var err error
+func (foreman *Foreman) CreateHost(Host *Host) (returnedHost *Host, err error) {
 	jsonText, err := json.Marshal(&Host)
 	data, err := foreman.Post("hosts", jsonText)
 	if err != nil {
 		fmt.Print("Error ")
 		fmt.Println(err)
-		return "", err
+		return nil, err
+	} else {
+		fmt.Printf("Created Host: %s", data)
 	}
-	return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
+	return nil, nil
+	//return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
 
+}
+
+func (foreman *Foreman) GetHost(Host *Host) (returnedHost *Host, err error) {
+	fmt.Printf("Get host %s", Host.Name)
+	/* TODO
+	uri := fmt.Sprintf("hosts/%s.%s", Host.Name, Host.Domain.Name)
+	data, err := foreman.Get("hosts")
+	if err != nil { //error
+		fmt.Print("Error ")
+		fmt.Println(err)
+		return nil, err
+	} else {
+		//TODO
+		return returnedHost
+		//return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
+	} */
+	return nil, nil
+}
+
+func (foreman *Foreman) UpdateHost(Host *Host) (returnedHost *Host, err error) {
+	fmt.Printf("Update host %s", Host.Name)
+	/* TODO
+	domain	:=
+	uri := fmt.Sprintf("hosts/%s.%s", Host.Name, Host.Domain.Name)
+	data, err := foreman.Get("hosts")
+	if err != nil { //error
+		fmt.Print("Error ")
+		fmt.Println(err)
+		return nil, err
+	} else {
+		//TODO
+		return returnedHost
+		//return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
+	}
+	*/
+	return nil, nil
 }
 
 func (foreman *Foreman) DeleteHost(HostID string) error {

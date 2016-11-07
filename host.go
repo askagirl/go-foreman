@@ -19,9 +19,9 @@ type Compute_attributes struct {
 
 //These are things like which datastore or cluster the virtual disks need to live on
 type Volumes_attributes struct {
-	Name      string `json:"name,omitempty"`
-	Size_gb   int    `json:"size_gb,omitempty"`
-	_delete   string `json:",omitempty"`
+	Name    string `json:"name,omitempty"`
+	Size_gb int    `json:"size_gb,omitempty"`
+	//_delete   string `json:",omitempty"`
 	Datastore string `json:"datastore,omitempty"`
 }
 
