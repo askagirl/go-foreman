@@ -66,6 +66,8 @@ type Ifcompute_attributes struct {
 type Host struct {
 	Name                string             `json:"name,omitempty"`
 	Environment_id      string             `json:"environment_id,omitempty"`
+	Organization_id     int                `json:"organization_id,omitempty"`
+	Location_id         int                `json:"location_id,omitempty"`
 	Ip                  string             `json:"ip,omitempty"`
 	Mac                 string             `json:"mac,omitempty"`
 	Architecture_id     int                `json:"architecture_id,omitempty"`
