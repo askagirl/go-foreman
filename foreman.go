@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/mitchellh/mapstructure"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -118,6 +119,7 @@ func (foreman *Foreman) Post(endpoint string, jsonData []byte) (map[string]inter
 		return nil, errors.New("HTTP Error " + r.Status)
 	}
 	m := data.(map[string]interface{})
+	log.Printf("POST Data returned: %s", m)
 	return m, nil
 }
 
@@ -163,6 +165,7 @@ func (foreman *Foreman) Get(endpoint string) (map[string]interface{}, error) {
 		return nil, err
 	}
 	m := data.(map[string]interface{})
+	log.Printf("Foreman GET: %v", m)
 	return m, nil
 }
 
@@ -234,9 +237,14 @@ func (foreman *Foreman) CreateHost(Host *Host) (returnedHost *Host, err error) {
 		log.Println(err)
 		return nil, err
 	} else {
-		fmt.Printf("Created Host: %s", data)
+		log.Printf("Created Host: %s", data)
 	}
-	return nil, nil
+	err = mapstructure.Decode(data, &returnedHost)
+	if err != nil {
+		log.Print("Error unmarshalling Host struct after create")
+		panic(err)
+	}
+	return returnedHost, nil
 	//return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
 
 }
@@ -278,9 +286,9 @@ func (foreman *Foreman) UpdateHost(Host *Host) (returnedHost *Host, err error) {
 	return nil, nil
 }
 
-func (foreman *Foreman) DeleteHost(HostID string) error {
+func (foreman *Foreman) DeleteHost(Host *Host) error {
 	var err error
 
-	_, err = foreman.Delete("hosts/" + HostID)
+	_, err = foreman.Delete("hosts/" + Host.Name)
 	return err
 }

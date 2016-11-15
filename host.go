@@ -8,11 +8,18 @@ import (
 
 //These are actual compute instance attributes
 type Compute_attributes struct {
-	Cpus      string `json:"cpus,omitempty"`
-	Start     string `json:"start,omitempty"`
-	Cluster   string `json:"cluster,omitempty"`
-	Memory_mb string `json:"memory_mb,omitempty"`
-	Guest_id  string `json:"guest_id,omitempty"`
+	Cpus                 string `json:"cpus,omitempty"`
+	Corespersocket       string `json:"corespersocket,omitempty"`
+	Start                string `json:"start,omitempty"`
+	Cluster              string `json:"cluster,omitempty"`
+	Memory_mb            string `json:"memory_mb,omitempty"`
+	Guest_id             string `json:"guest_id,omitempty"`
+	Resource_pool        string `json:"resource_pool,omitempty"`
+	Resource_pool_id     string `json:"resource_pool_id,omitempty"`
+	Path                 string `json:"path,omitempty"`
+	Scsi_controller_type string `json:"scsi_controller_type,omitempty"`
+	Hardware_version     string `json:"hardware_version,omitempty"`
+
 	//This needs to be a struct map or the foreman API will kick back the JSON
 	Volumes_attributes_map map[string]Volumes_attributes `json:"volumes_attributes,omitempty"`
 }
