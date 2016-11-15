@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
 	"strconv"
 	"time"
 )
@@ -229,6 +230,47 @@ func (foreman *Foreman) CreateHost(HostGroupId int, Name string, Mac string) (st
 	return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
 }
 */
+
+func (foreman *Foreman) Create(i interface{}) (ret *Host, err error) {
+	var uri string
+	switch r := i.(type) {
+	case *Domain:
+		uri = "domains"
+	case *Environment:
+		uri = "environments"
+	case *Hostgroup:
+		uri = "hostgroups"
+	case *Host:
+		uri = "hosts"
+	case *Image:
+		uri = "images"
+	case *Location:
+		uri = "locations"
+	case *Media:
+		uri = "media"
+	default:
+		log.Println("Type was: ", r)
+		panic("Unrecognized struct type")
+	}
+	log.Println("Create uri: ", uri)
+	jsonText, err := json.Marshal(&i)
+	data, err := foreman.Post(uri, jsonText)
+	if err != nil {
+		log.Print("Error ")
+		log.Println(err)
+		return nil, err
+	} else {
+		log.Printf("Created %s: %s", reflect.TypeOf(i), data)
+	}
+	err = mapstructure.Decode(data, &ret)
+	if err != nil {
+		log.Print("Error unmarshalling Host struct after create")
+		panic(err)
+	}
+	return ret, nil
+
+}
+
 func (foreman *Foreman) CreateHost(Host *Host) (returnedHost *Host, err error) {
 	jsonText, err := json.Marshal(&Host)
 	data, err := foreman.Post("hosts", jsonText)
@@ -261,10 +303,13 @@ func (foreman *Foreman) GetHost(Host *Host) (returnedHost *Host, err error) {
 	} else {
 		// Populate the Host struct and return it
 		fmt.Printf("GetHost returned: %s\n", data)
+		err = mapstructure.Decode(data, &returnedHost)
+		if err != nil {
+			log.Print("Error unmarshalling Host struct")
+			panic(err)
+		}
 		return returnedHost, nil
-		//return strconv.FormatFloat(data["id"].(float64), 'f', 0, 64), nil
 	}
-	return nil, nil
 }
 
 func (foreman *Foreman) UpdateHost(Host *Host) (returnedHost *Host, err error) {

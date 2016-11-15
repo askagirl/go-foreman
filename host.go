@@ -72,7 +72,7 @@ type Ifcompute_attributes struct {
 //This is the main host struct instance that later gets wrapped in reqHost for JSON/foreman API reasons
 type Host struct {
 	Name                string             `json:"name,omitempty"`
-	Environment_id      string             `json:"environment_id,omitempty"`
+	Environment_id      int                `json:"environment_id,omitempty"`
 	Organization_id     int                `json:"organization_id,omitempty"`
 	Location_id         int                `json:"location_id,omitempty"`
 	Ip                  string             `json:"ip,omitempty"`
@@ -82,8 +82,8 @@ type Host struct {
 	Realm_id            int                `json:"realm_id,omitempty"`
 	Puppet_proxy_id     int                `json:"puppet_proxy_id,omitempty"`
 	Puppetclass_ids     []int              `json:"puppetclass_ids,omitempty"`
-	Operatingsystem_id  string             `json:"operatingsystem_id,omitempty"`
-	Medium_id           string             `json:"medium_id,omitempty"`
+	Operatingsystem_id  int                `json:"operatingsystem_id,omitempty"`
+	Medium_id           int                `json:"medium_id,omitempty"`
 	Ptable_id           int                `json:"ptable_id,omitempty"`
 	Subnet_id           int                `json:"subnet_id,omitempty"`
 	Compute_resource_id int                `json:"compute_resource_id,omitempty"`
@@ -101,7 +101,7 @@ type Host struct {
 	Owner_type          string             `json:"owner_type,omitempty"` // must be either User or Usergroup
 	Progress_report_id  string             `json:"progress_report_id,omitempty"`
 	Comment             string             `json:"comment,omitempty"`
-	Capabilities        string             `json:"capabilities,omitempty"`
+	Capabilities        []interface{}      `json:"capabilities,omitempty"`
 	Compute_profile_id  int                `json:"compute_profile_id,omitempty"`
 	//mapped struct array for host parameters
 	Host_parameters_attributes_map map[string]Params_archetype `json:"host_parameters_attributes,omitempty"`
